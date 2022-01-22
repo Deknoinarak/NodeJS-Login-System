@@ -1,1 +1,87 @@
 /* CSS Document */
+
+/* Container */
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Background */
+.background {
+    width: 100%;
+    height: 100%;
+    background: url("https://cdn.pixabay.com/photo/2017/07/26/09/39/city-2541005_960_720.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    z-index: -1;
+}
+
+/* Form */
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #eee;
+}
+
+.form-container {
+    width: 35%;
+    background-color: #1a1a1a;
+    padding: 1rem;
+    transition: .5s;
+}
+
+.input-form {
+    display: block;
+    margin: 10px 0;
+}
+
+.input-form span {
+    display: block;
+    font-size: 1rem;
+}
+
+.input-form input {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    border: none;
+    color: #292929;
+}
+
+.input-form input#firstName,
+.input-form input#lastName {
+    display: inline-block;
+    width: 50%;
+    border: 1px solid #1a1a1a;
+}
+
+button.btn-login {
+    float: right;
+    padding: 8px 15px;
+    border: none;
+    margin-top: 15px;
+    background-color: #eee;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .25s color;
+    border-radius: .5rem;
+}
+
+button:hover {
+    background-color: #f79854;
+    color: #eee;
+}
+
+.bottom .link {
+    color: #26c5ff;
+    display: block;
+    width: fit-content;
+}
+
+.bottom {
+    margin-top: 10px;
+}

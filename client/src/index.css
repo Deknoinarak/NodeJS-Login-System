@@ -1,4 +1,17 @@
-body {
+/* CSS Document */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
 }

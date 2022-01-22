@@ -7,7 +7,8 @@ import {
   Link
 } from "react-router-dom";
 import {
-  Register
+  Register,
+  Login
 } from "./components";
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <Route path="/" >
           <Route index element={<h1>Please <Link to="/login">Login Here</Link></h1>} />
           <Route path="register" element={<Register />} />
-          <Route path="login" element={<Register />} />
+          <Route path="login" element={<Login />} />
         </Route>
         <Route path="*" element={<div><h1>404 Error - Page Not Found</h1> <Link to="/">Return To Home</Link></div>} />
       </Routes>
