@@ -1,0 +1,19 @@
+{
+  "name": "mern-login-system",
+  "version": "1.0.0",
+  "description": "MERN (Mongoose, Express, React, Node) Login System",
+  "main": "none",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deknoinarak/NodeJS-Login-System.git"
+  },
+  "author": "Nonthapat Jumjai (Deknoinarak)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deknoinarak/NodeJS-Login-System/issues"
+  },
+  "homepage": "https://github.com/Deknoinarak/NodeJS-Login-System#readme"
+}
