@@ -1,11 +1,14 @@
 // Import Modules
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./register.css";
 
 // Callback Function
 const Register = () => {
+  // Navigate
+  const navigate = useNavigate();
+
   // UseState Variable
   const [user, setUser] = useState({
     firstName: "",
@@ -20,22 +23,26 @@ const Register = () => {
   const submit = (e) => {
     e.preventDefault();
     console.log("Form submitted");
-    axios
-      .post("http://192.168.2.38:8561/api/auth/register", {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        pwd: user.pwd,
-        confirm: user.confirm,
-      })
-      .then((res) => {
-        console.log("SEND POST");
-        console.log(res.data);
-        res.data.success
-          ? alert("Successfully Register New User!")
-          : alert("Error While Register New User!");
-      });
+    if (user.pwd === user.confirm) {
+      axios
+        .post("http://192.168.2.38:8561/api/auth/register", {
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          pwd: user.pwd,
+          confirm: user.confirm,
+        })
+        .then((res) => {
+          console.log("SEND POST");
+          console.log(res.data);
+          res.data.success
+            ? navigate("/")
+            : alert("Error While Register New User!");
+        });
+    } else {
+      alert("Password And Confirm Password Is Not The Same!");
+    }
   };
 
   // onChange Function
