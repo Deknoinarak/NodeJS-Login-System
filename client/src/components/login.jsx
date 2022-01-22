@@ -1,10 +1,13 @@
 // Import Modules
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "./login.css";
+import { Link, useNavigate } from "react-router-dom";
 
 // Callback Function
 const Login = () => {
+  // Navigate
+  const navigate = useNavigate();
+
   // UseState Variable
   const [user, setUser] = useState({
     username: "",
@@ -15,6 +18,16 @@ const Login = () => {
   const submit = (e) => {
     e.preventDefault();
     console.log("Form submitted");
+    axios
+      .post("http://192.168.2.38:8561/api/auth/login", {
+        username: user.username,
+        pwd: user.pwd,
+      })
+      .then((res) => {
+        console.log("SEND POST");
+        console.log(res.data);
+        // res.data.success ? navigate("/") : alert("Error While Logging In");
+      });
   };
 
   // onChange Function

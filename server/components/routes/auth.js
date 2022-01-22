@@ -2,7 +2,8 @@
 import express from "express";
 import consola from "consola";
 import {
-    regisUser
+    regisUser,
+    loginUser
 } from "../utils/auth.js"
 
 // Variables
@@ -16,6 +17,16 @@ router.post('/register', (req, res) => {
     })
 
     regisUser(req.body, res)
+})
+
+// POST /login
+router.post('/login', (req, res) => {
+    consola.info({
+        message: `Get 'POST': '/api/auth/login'`,
+        badge: true
+    })
+
+    loginUser(req.body, res)
 })
 
 // Export

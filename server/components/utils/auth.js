@@ -1,9 +1,10 @@
 // Import Modules
-import mongoose from "mongoose"
 import userModel from "../models/user.model.js"
 import { v4 as uuidv4 } from "uuid"
 import consola from "consola"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import user from "../models/user.model.js"
 
 // Register User Function
 const regisUser = async (userInfo, res) => {
@@ -51,6 +52,87 @@ const regisUser = async (userInfo, res) => {
     }
 }
 
+// Login User Function
+const loginUser = async (userInfo, res) => {
+    try {
+        const findUserByEmail = await userModel.findOne({ email: userInfo.username })
+        const findUser = await userModel.findOne({ username: userInfo.username })
+
+        if (findUser) {
+            consola.success({
+                message: `Successfully Find User By Username`,
+                badge: true
+            })
+
+            login(userInfo, findUser, res)
+        }
+        else if (findUserByEmail) {
+            consola.success({
+                message: `Successfully Find User By Email`,
+                badge: true
+            })
+
+            login(userInfo, findUserByEmail, res)
+        }
+        else {
+            consola.error({
+                message: `No User Found With That Email/Username`,
+                badge: true
+            })
+
+            return res.json({
+                message: `Password Or Username Does Not Match!`,
+                success: false
+            })
+        }
+    }
+    catch (err) {
+        consola.error({
+            message: `Error While Logging In. Info: ${err}`,
+            badge: true
+        })
+
+        return res.status(503).json({
+            message: `Error While Logging In. Info: ${err}`,
+            success: false
+        })
+    }
+}
+
+// Login Function
+const login = async (userInfo, fromDB, res) => {
+    consola.info({
+        message: `Login Function Started!`,
+        badge: true
+    })
+
+    if (await bcrypt.compare(userInfo.pwd, fromDB.password)) {
+        const jwtToken = jwt.sign({
+            id: fromDB.user_id,
+            firstName: fromDB.firstName,
+            lastName: fromDB.lastName,
+            username: fromDB.username,
+            email: fromDB.email,
+        }, process.env.SECRET)
+
+        consola.info("JWT Token:", jwtToken)
+
+        return res.status(200).json({
+            message: `Login Successfully!`,
+            token: jwtToken,
+            success: true
+        })
+    }
+
+    consola.info(`Password Does Not Match`)
+
+    return res.json({
+        message: `Password Or Username Does Not Match!`,
+        success: false
+    })
+}
+
 export {
-    regisUser
+    regisUser,
+    loginUser
 }
