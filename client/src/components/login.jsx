@@ -22,11 +22,12 @@ const Login = () => {
       .post("http://192.168.2.38:8561/api/auth/login", {
         username: user.username,
         pwd: user.pwd,
+        credentials: "include",
       })
       .then((res) => {
         console.log("SEND POST");
         console.log(res.data);
-        // res.data.success ? navigate("/") : alert("Error While Logging In");
+        res.data.success ? navigate("/") : alert("Error While Logging In");
       });
   };
 

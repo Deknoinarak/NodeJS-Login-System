@@ -4,11 +4,27 @@ import { v4 as uuidv4 } from "uuid"
 import consola from "consola"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import user from "../models/user.model.js"
 
 // Register User Function
 const regisUser = async (userInfo, res) => {
     try {
+        // Username Valid
+        if (!await usernameValid(userInfo.username, userInfo.email)) {
+            // Inform Error
+            consola.error({
+                message: `Username or email already register`,
+                badge: true
+            })
+
+            return (
+                //  Send Back JSON Status
+                res.json({
+                    message: `That Username or email already register`,
+                    success: false
+                })
+            )
+        }
+
         // Hash Password
         const pwdHash = await bcrypt.hash(userInfo.pwd, 12)
 
@@ -45,8 +61,8 @@ const regisUser = async (userInfo, res) => {
         })
 
         //  Send Back JSON Status
-        res.status(503).json({
-            message: `Error While Adding New User To The Database. Info: ${err}`,
+        res.json({
+            message: `Error While Registering User! Info: ${err}`,
             success: false
         })
     }
@@ -130,6 +146,28 @@ const login = async (userInfo, fromDB, res) => {
         message: `Password Or Username Does Not Match!`,
         success: false
     })
+}
+
+// Username/Email Validation
+const usernameValid = async (username, email) => {
+    try {
+        // Find If there were username or email with this input
+        const validUsername = await userModel.findOne({ username: username })
+        const validEmail = await userModel.findOne({ email: email })
+
+        if (validEmail || validUsername) {
+            // If there were user with this username or password
+            return false
+        }
+        else {
+            // If there were no
+            return true
+        }
+    }
+    catch (err) {
+        // Return Back Error
+        return err
+    }
 }
 
 export {

@@ -8,7 +8,8 @@ import {
 } from "react-router-dom";
 import {
   Register,
-  Login
+  Login,
+  Home
 } from "./components";
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" >
-          <Route index element={<h1>Please <Link to="/login">Login Here</Link></h1>} />
+          <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
         </Route>

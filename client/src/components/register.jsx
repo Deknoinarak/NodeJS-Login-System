@@ -36,9 +36,7 @@ const Register = () => {
         .then((res) => {
           console.log("SEND POST");
           console.log(res.data);
-          res.data.success
-            ? navigate("/")
-            : alert("Error While Register New User!");
+          res.data.success ? navigate("/") : alert(res.data.message);
         });
     } else {
       alert("Password And Confirm Password Is Not The Same!");
