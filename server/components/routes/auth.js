@@ -27,24 +27,15 @@ router.post('/login', (req, res, next) => {
         badge: true
     })
 
-    // loginUser(req.body, res)
     passport.authenticate("local", (err, user, info) => {
+        console.log("AUTHENTICATION")
         if (err) throw err
-        if (!user) {
-            res.json({
-                message: "User Not Exist",
-                success: false
-            })
-        }
+        if (!user) return res.send("User does not exist")
         else {
-            req.logIn(user, (err) => {
+            console.log(user)
+            req.logIn(user, err => {
                 if (err) throw err
-                res.json({
-                    message: "Successfully Authenticated",
-                    data: req.user,
-                    success: true
-                })
-                console.log(req.user)
+                res.send(req.user)
             })
         }
     })(req, res, next)

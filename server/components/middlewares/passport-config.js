@@ -1,41 +1,42 @@
 // Import Modules
-import userModel from "../models/user.model.js";
-import localPassport from "passport-local";
-import bcrypt from "bcrypt";
+import localPassport from "passport-local"
+import userModel from "../models/user.model.js"
+import bcrypt from "bcrypt"
 
 // Variables
-const localStrategy = localPassport.Strategy;
+const localStrategy = localPassport.Strategy
 
-// Function
-const passportConfig = (passport) => {
-    passport.use(
-        new localStrategy({ usernameField: 'username', passwordField: 'pwd' }, (username, password, done) => {
+// Strategy
+const passportConfigLocal = (passport) => {
+    passport.use(new localStrategy({ usernameField: 'username', passwordField: 'pwd' },
+        (username, password, done) => {
             userModel.findOne({ username: username }, (err, user) => {
                 if (err) throw err
-                if (!user) return done(null, false)
+                if (!user) return done(null, false, { message: `User Does Not Exist.` })
                 bcrypt.compare(password, user.password, (err, result) => {
                     if (err) throw err
                     if (result === true) {
                         return done(null, user)
                     }
                     else {
-                        return done(null, false)
+                        return done(null, false, { message: `Incorrect Password` })
                     }
                 })
             })
-        })
-    )
+        }
+    ))
 
-    passport.serializeUser((user, cb) => {
-        cb(null, user.user_id)
-    })
+    passport.serializeUser((user, done) => {
+        console.log("Serialize User")
+        done(null, user.id);
+    });
 
-    passport.deserializeUser((id, cb) => {
-        userModel.findOne({ user_id: id }, (err, user) => {
-            console.log("DESERIALIZE!!!")
-            cb(null, user)
-        })
-    })
+    passport.deserializeUser((id, done) => {
+        console.log("Deserialize User")
+        userModel.findOne({ _id: id }, (err, user) => {
+            done(err, user);
+        });
+    });
 }
 
-export default passportConfig
+export default passportConfigLocal

@@ -7,6 +7,7 @@ import cors from "cors";
 import session from "express-session"
 import cookieParser from "cookie-parser"
 import passport from "passport"
+import bodyParser from "body-parser"
 
 // DotENV
 dotenv.config();
@@ -22,26 +23,21 @@ app.use(cors({
     credentials: true
 }))
 
-// Body JSON Parser
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-// Session
-app.use(
-    session({
-        secret: 'SECRET',
-        resave: true,
-        saveUninitialized: true,
-    })
-)
-app.use(cookieParser('SECRET'))
-
-// Passport
+// Passport Config
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(session({
+    secret: SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(cookieParser(SECRET))
 app.use(passport.initialize())
 app.use(passport.session())
 
-// import passportConfig from "./components/middlewares/passport-config.js"
-// passportConfig(passport)
+import passportConfigLocal from "./components/middlewares/passport-config.js"
+passportConfigLocal(passport)
 
 // Create HTTP Server
 app.listen(8561, () => {
